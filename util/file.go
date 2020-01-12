@@ -15,12 +15,11 @@ func EnsurePath(path string) error {
 	return nil
 }
 
-
 func WriteData(filePath string, value interface{}) error {
 	return ioutil.WriteFile(filePath, []byte(fmt.Sprintf("%v", value)), 0644)
 }
 
-func ReadData(filePath string) (string, error)  {
+func ReadData(filePath string) (string, error) {
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return "", err

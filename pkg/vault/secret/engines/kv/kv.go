@@ -4,44 +4,47 @@ import (
 	"fmt"
 	"github.com/hashicorp/vault/api"
 	"github.com/sanjid133/vault-kube/errors"
-	"github.com/sanjid133/vault-kube/pkg/vault/secret"
 )
 
-const Name  = "KV"
+const (
+	Name      = "KV"
+	KeySecret = "secret"
+	KeyPath   = "path"
+)
 
 type Info struct {
-	path string
+	path   string
 	secret string
 	client *api.Client
 }
 
-func NewManager() (*Info, error)  {
+func NewManager() (*Info, error) {
 	return &Info{}, nil
 }
 
-func (i *Info) Initialize(c *api.Client, vals map[string]string) error  {
+func (i *Info) Initialize(c *api.Client, vals map[string]string) error {
 	if c == nil {
 		return errors.ErrMissingValue("vault api client")
 	}
 	i.client = c
-	v, find := vals[secret.KeySecret]
+	v, find := vals[KeySecret]
 	if !find {
-		return errors.ErrMissingValue(secret.KeySecret)
+		return errors.ErrMissingValue(KeySecret)
 	}
 	i.secret = v
-	 p, find := vals[secret.KeyPath]
+	p, find := vals[KeyPath]
 	if !find {
-		return errors.ErrMissingValue(secret.KeyPath)
+		return errors.ErrMissingValue(KeyPath)
 	}
 	i.path = p
 	return nil
 }
 
-
-func (i *Info) GetSecret() (*api.Secret, error)  {
-	v1Path := func()string {
+func (i *Info) GetSecret() (*api.Secret, error) {
+	v1Path := func() string {
 		return fmt.Sprintf("/v1/%s/%s", i.path, i.secret)
 	}
+	fmt.Println(v1Path())
 
 	req := i.client.NewRequest("GET", v1Path())
 	resp, err := i.client.RawRequest(req)

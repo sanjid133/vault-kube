@@ -13,7 +13,7 @@ export SA_CA_CRT=$(kubectl get secret $VAULT_SA_NAME -o jsonpath="{.data['ca\.cr
 
 vault auth enable kubernetes
 
-vault write auth/kubernetes/config kubernetes_host="https://127.0.0.1:41949" kubernetes_ca_cert="$SA_CA_CRT" token_reviewer_jwt=$TR_ACCOUNT_TOKEN
+vault write auth/kubernetes/config kubernetes_host="https://172.17.0.3:6443" kubernetes_ca_cert="$SA_CA_CRT" token_reviewer_jwt=$TR_ACCOUNT_TOKEN
 
 vault write sys/policy/demo-policy policy=@policy.hcl
 

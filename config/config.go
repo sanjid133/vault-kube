@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	KeyVaultRole = "VAULT_ROLE"
-	KeyDataPath = "VAULT_DATA_PATH"
+	KeyVaultRole               = "VAULT_ROLE"
+	KeyDataPath                = "VAULT_DATA_PATH"
 	KeyServiceAccountTokenPath = "SERVICE_ACCOUNT_TOKEN_PATH"
 )
 
@@ -16,12 +16,12 @@ const (
 )
 
 type Config struct {
-	Role string
-	DataPath string
+	Role                    string
+	DataPath                string
 	ServiceAccountTokenPath string
 }
 
-func LoadFromEnvironment() (*Config, error)  {
+func LoadFromEnvironment() (*Config, error) {
 	c := &Config{}
 	c.Role = os.Getenv(KeyVaultRole)
 	c.DataPath = os.Getenv(KeyDataPath)

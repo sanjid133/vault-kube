@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func RetrieveSecret(client *api.Client, engineName string, opts map[string]string) (*api.Secret, error)  {
+func RetrieveSecret(client *api.Client, engineName string, opts map[string]string) (*api.Secret, error) {
 	engine, err := engines.NewEngineManager(engineName)
 	if err != nil {
 		return nil, err

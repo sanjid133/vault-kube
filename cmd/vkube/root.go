@@ -1,4 +1,4 @@
-package vkube
+package main
 
 import (
 	"github.com/sanjid133/vault-kube/version"
@@ -6,18 +6,18 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use: "vkube",
-	Short: "vkube retrieve data from vault into kubernetes",
+	Use:     "vkube",
+	Short:   "vkube retrieve data from vault into kubernetes",
 	Version: version.Version,
-
 }
 
-func main()  {
+func main() {
 	rootCmd.Execute()
 }
 
-func init()  {
+func init() {
 	rootCmd.AddCommand(
 		authCmd,
+		retrieveCmd,
 	)
 }

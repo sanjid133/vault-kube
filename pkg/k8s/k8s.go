@@ -12,11 +12,11 @@ import (
 )
 
 type Client struct {
-	vClient *api.Client
+	vClient    *api.Client
 	kubeClient kubernetes.Interface
-	jwt string
-	role string
-	path string
+	jwt        string
+	role       string
+	path       string
 }
 
 func New(vc *api.Client, cfg *config.Config) (*Client, error) {
@@ -25,14 +25,13 @@ func New(vc *api.Client, cfg *config.Config) (*Client, error) {
 		return nil, err
 	}
 	return &Client{
-		vClient:    vc,
-		jwt:        jwt,
-		role:       cfg.Role,
-		path:       cfg.ServiceAccountTokenPath,
+		vClient: vc,
+		jwt:     jwt,
+		role:    cfg.Role,
+		path:    "kubernetes",
 	}, nil
 
 }
-
 
 func (c *Client) Login() (string, error) {
 	path := fmt.Sprintf("/v1/auth/%s/login", c.path)

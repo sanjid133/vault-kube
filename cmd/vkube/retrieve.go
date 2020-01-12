@@ -9,13 +9,13 @@ import (
 	"log"
 )
 
-var authCmd = &cobra.Command{
+var retrieveCmd = &cobra.Command{
 	Use:   "authenticate",
 	Short: "authenticate kubernetes login",
-	RunE:  authenticate,
+	RunE:  retrieve,
 }
 
-func authenticate(cmd *cobra.Command, args []string) error {
+func retrieve(cmd *cobra.Command, args []string) error {
 	cfg, err := config.LoadFromEnvironment()
 	if err != nil {
 		log.Fatal(err)
