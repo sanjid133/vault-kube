@@ -5,13 +5,14 @@ import (
 	"github.com/sanjid133/vault-kube/config"
 	"github.com/sanjid133/vault-kube/pkg/k8s"
 	"github.com/sanjid133/vault-kube/pkg/vault"
+	"github.com/sanjid133/vault-kube/pkg/vault/secret"
 	"github.com/spf13/cobra"
 	"log"
 )
 
 var retrieveCmd = &cobra.Command{
-	Use:   "authenticate",
-	Short: "authenticate kubernetes login",
+	Use:   "retrieve",
+	Short: "retrieve data",
 	RunE:  retrieve,
 }
 
@@ -33,6 +34,18 @@ func retrieve(cmd *cobra.Command, args []string) error {
 		// TODO: allow fail
 		log.Fatal(err)
 	}
-	fmt.Println(token)
-	return nil
+	c.Client.SetToken(token)
+
+	opts := map[string]string{
+		"secret": "my-secret",
+		"path":   "kv",
+	}
+	sec, err := secret.RetrieveSecret(c.Client, "KV", opts)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(sec.Data)
+
+	return secret.StoreSecretIntoFile(sec, "/tmp/sec", "my-value")
+
 }

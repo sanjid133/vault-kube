@@ -8,12 +8,10 @@ import (
 	"github.com/sanjid133/vault-kube/config"
 	"github.com/sanjid133/vault-kube/util"
 	"io"
-	"k8s.io/client-go/kubernetes"
 )
 
 type Client struct {
 	vClient    *api.Client
-	kubeClient kubernetes.Interface
 	jwt        string
 	role       string
 	path       string

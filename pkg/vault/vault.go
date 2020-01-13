@@ -10,15 +10,6 @@ type Vault struct {
 	cfg    *config.Config
 	Client *api.Client
 }
-
-type vaultLogicalWriter interface {
-	Write(path string, data map[string]interface{}) (*api.Secret, error)
-}
-
-var vaultLogical = func(c *api.Client) vaultLogicalWriter {
-	return c.Logical()
-}
-
 func New(cfg *config.Config) (*Vault, error) {
 	v := &Vault{
 		cfg: cfg,

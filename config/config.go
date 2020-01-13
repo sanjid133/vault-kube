@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	KeyVaultAddr	= "VAULT_ADDR"
 	KeyVaultRole               = "VAULT_ROLE"
 	KeyDataPath                = "VAULT_DATA_PATH"
 	KeyServiceAccountTokenPath = "SERVICE_ACCOUNT_TOKEN_PATH"
@@ -13,6 +14,7 @@ const (
 
 const (
 	defaultServiceAccountTokenPath = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+	defaultVaultAddr = "http://127.0.0.1:8200"
 )
 
 type Config struct {
