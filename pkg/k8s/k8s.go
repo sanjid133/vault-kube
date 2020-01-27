@@ -11,10 +11,10 @@ import (
 )
 
 type Client struct {
-	vClient    *api.Client
-	jwt        string
-	role       string
-	path       string
+	vClient *api.Client
+	jwt     string
+	role    string
+	path    string
 }
 
 func New(vc *api.Client, cfg *config.Config) (*Client, error) {

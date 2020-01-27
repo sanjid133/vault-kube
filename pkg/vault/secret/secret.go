@@ -28,7 +28,8 @@ func StoreSecretIntoFile(sec *api.Secret, filePath, keyName string) error {
 		return err
 	}
 	if val, found := sec.Data[keyName]; found {
-		if err := util.WriteData(filePath, val); err != nil {
+		file := filepath.Join(filePath, keyName)
+		if err := util.WriteData(file, val); err != nil {
 			return err
 		}
 	}

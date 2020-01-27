@@ -1,3 +1,7 @@
+path "secret/boron/*" {
+ capabilities = [ "read", "list"]
+}
+
 path "kv/*" {
- capabilities = ["create", "read", "update", "delete", "list"]
+ capabilities = [ "read", "list"]
 }

@@ -10,6 +10,7 @@ type Vault struct {
 	cfg    *config.Config
 	Client *api.Client
 }
+
 func New(cfg *config.Config) (*Vault, error) {
 	v := &Vault{
 		cfg: cfg,

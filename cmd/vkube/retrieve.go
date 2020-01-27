@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/sanjid133/vault-kube/config"
 	"github.com/sanjid133/vault-kube/pkg/k8s"
 	"github.com/sanjid133/vault-kube/pkg/vault"
@@ -37,15 +36,24 @@ func retrieve(cmd *cobra.Command, args []string) error {
 	c.Client.SetToken(token)
 
 	opts := map[string]string{
-		"secret": "my-secret",
-		"path":   "kv",
+		"secret": cfg.SecretName,
+		"path":   cfg.SecretPath,
 	}
-	sec, err := secret.RetrieveSecret(c.Client, "KV", opts)
+	sec, err := secret.RetrieveSecret(c.Client, cfg.SecretEngine, opts)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(sec.Data)
 
-	return secret.StoreSecretIntoFile(sec, "/tmp/sec", "my-value")
-
+	if cfg.SecretKey == "" {
+		for k, _ := range sec.Data {
+			if err := secret.StoreSecretIntoFile(sec, cfg.DataPath, k); err != nil {
+				log.Fatal(err)
+			}
+		}
+	} else {
+		if err := secret.StoreSecretIntoFile(sec, cfg.DataPath, cfg.SecretKey); err != nil {
+			log.Fatal(err)
+		}
+	}
+	return nil
 }
