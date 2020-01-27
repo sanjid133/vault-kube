@@ -14,8 +14,6 @@ before_script:
   - mkdir -p $GOPATH/src/gitlab.com/purchase-fly-api
   - ln -s $CI_PROJECT_DIR $GOPATH/src/gitlab.com/purchase-fly-api/vault-kube
   - apk add --no-cache --update git openssh
-  - git config --global url."git@github.com:".insteadOf "https://github.com/"
-  - git config --global url."git@gitlab.com:".insteadOf "https://gitlab.com/"
 
 .before_package_template: &docker_setup
   before_script:

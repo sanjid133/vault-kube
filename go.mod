@@ -8,6 +8,6 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/spf13/cobra v0.0.5
 	k8s.io/api v0.17.0 // indirect
-	k8s.io/client-go v0.16.4
+	k8s.io/client-go v0.16.4 // indirect
 	k8s.io/utils v0.0.0-20200109141947-94aeca20bf09 // indirect
 )
