@@ -1,0 +1,57 @@
+image: golang:1.12-alpine
+
+variables:
+  GOPATH: /go
+  CGO_ENABLED: 0
+
+stages:
+  - build
+  - test
+  - package
+  - deploy
+
+before_script:
+  - mkdir -p $GOPATH/src/gitlab.com/purchase-fly-api
+  - ln -s $CI_PROJECT_DIR $GOPATH/src/gitlab.com/purchase-fly-api/vault-kube
+  - apk add --no-cache --update git openssh
+  - git config --global url."git@github.com:".insteadOf "https://github.com/"
+  - git config --global url."git@gitlab.com:".insteadOf "https://gitlab.com/"
+
+.before_package_template: &docker_setup
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+build-api:
+  stage: build
+  tags:
+    - docker
+  cache:
+    key: "$CI_PROJECT_PATH:$CI_COMMIT_REF_SLUG:vkube"
+    paths:
+      - vault-kube/vendor
+  script:
+    - cd $GOPATH/src/gitlab.com/purchase-fly-api/vault-kube
+    - ./build.sh
+  only:
+    - master
+
+dockerize-api:
+  stage: package
+  when: on_success
+  image: docker:latest
+  tags:
+    - docker
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  <<: *docker_setup
+  script:
+    - if [ -z "$CI_COMMIT_TAG" ]; then VERSION=$CI_COMMIT_SHORT_SHA; else VERSION=$CI_COMMIT_TAG; fi
+    - docker build --build-arg VERSION="${VERSION}" -t registry.gitlab.com/purchase-fly-api/vault-kube:latest .
+    - docker tag registry.gitlab.com/purchase-fly-api/vault-kube:latest "registry.gitlab.com/purchase-fly-api/vault-kube:${VERSION}"
+    - docker push registry.gitlab.com/purchase-fly-api/vault-kube:${VERSION}
+    - docker push registry.gitlab.com/purchase-fly-api/vault-kube:latest
+  only:
+    - master
