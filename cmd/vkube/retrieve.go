@@ -45,7 +45,7 @@ func retrieve(cmd *cobra.Command, args []string) error {
 	}
 
 	if cfg.SecretKey == "" {
-		for k, _ := range sec.Data {
+		for k := range sec.Data {
 			if err := secret.StoreSecretIntoFile(sec, cfg.DataPath, k); err != nil {
 				log.Fatal(err)
 			}
