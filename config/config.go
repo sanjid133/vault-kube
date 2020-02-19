@@ -18,7 +18,6 @@ const (
 const (
 	defaultSecretEngine            = "KV"
 	defaultServiceAccountTokenPath = "/var/run/secrets/kubernetes.io/serviceaccount/token"
-	defaultVaultAddr               = "http://127.0.0.1:8200"
 )
 
 type Config struct {

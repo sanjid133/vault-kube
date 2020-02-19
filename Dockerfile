@@ -18,5 +18,4 @@ RUN apk add --no-cache --update ca-certificates
 
 # Copy App binary to image
 COPY --from=builder /go/bin/vkube /usr/local/bin/vkube
-RUN which vkube
 ENTRYPOINT ["vkube"]
